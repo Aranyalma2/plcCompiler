@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $library_id = $data['project']['libraryID'];
         
         // Accessing block information
-        $io_blocks = $data['blocks']['IO'];
-        $non_io_blocks = $data['blocks']['NonIO'];
+        $blocks = $data['blocks'];
         
         // Accessing module information
         $modules = $data['modules'];
@@ -33,9 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // For example, printing the project name
         echo "Project Name: $project_name\n";
 
-        translateModel($library_id, $io_blocks, $non_io_blocks, $modules);
+        translateModel($library_id, $blocks, $modules);
 
-        createModulesConstructors($modules, $modules);
+        $mockdata = json_decode(file_get_contents("libraryExtracts/" . $library_id. ".json"), true);
+
+        createModuleConstructors($modules, $mockdata["modules"]);
+        createBlockConstructors($data['blocks'], $mockdata["blocks"]);
 
         
 
