@@ -1,0 +1,75 @@
+{
+	"project": {
+		"name": "TestProject",
+		"author": "test_token",
+		"boardID": "ArduinoNano",
+		"libraryID": "v1.0.0"
+	},
+
+	"blocks": {
+		"IO": {
+			"GPIO1": {
+				"classID": 0,
+				"uniqueID": 0,
+				"inputs": {
+					"0": "CONST:1"
+				}
+			},
+			"GPIO2": {
+				"classID": 0,
+				"uniqueID": 1,
+				"inputs": {
+					"0": "CONST:2"
+				}
+			},
+			"GPIO3": {
+				"classID": 0,
+				"uniqueID": 2,
+				"inputs": {
+					"0": "CONST:3"
+				}
+			}
+		},
+		"NonIO": {
+			"0": {
+				"classID": 0,
+				"uniqueID": 3,
+				"inputs": {
+					"0": "IO:0.0"
+				}
+			},
+			"1": {
+				"classID": 1,
+				"uniqueID": 4,
+				"inputs": {
+					"0": "BLOKK:0.0",
+					"1": "BLOKK:2.0"
+				}
+			},
+			"2": {
+				"classID": 1,
+				"uniqueID": 5,
+				"inputs": {
+					"0": "IO:0.0",
+					"1": "IO:1.0"
+				}
+			},
+			"3": {
+				"classID": 5,
+				"uniqueID": 6,
+				"inputs": {
+					"0": "IO:2.0",
+					"1": "BLOKK:1.0",
+					"2": "CONST:0"
+				}
+			}
+		}
+	},
+	"modules": {
+		"0": {
+			"0": "0",
+			"1": "19200",
+			"2": "1"
+		}
+	}
+}
