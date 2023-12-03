@@ -1,7 +1,7 @@
 {
 	"setInput": {
-		"block": "$CALLEDON$.setInput(%INDEX_IN%,%GETFROM%.getOutput(%INDEX_IN%));",
-		"constans": "$CALLEDON$.setInput(%INDEX_IN%,%VALUE%);"
+		"block": "%CALLEDON%.setInput(%INDEX_IN%,%GETFROM%.getOutput(%INDEX_OUT%));",
+		"constans": "%CALLEDON%.setInput(%INDEX_IN%,%VALUE%);"
 	},
-	"run": "$CALLEDON$.run();"
+	"run": "%CALLEDON%.run();"
 }
