@@ -7,61 +7,67 @@
 	},
 
 	"blocks": {
-		"IO": {
-			"GPIO1": {
-				"classID": 0,
-				"blockID": 0,
-				"inputs": {
-					"0": "CONST:1"
-				}
-			},
-			"GPIO2": {
-				"classID": 0,
-				"blockID": 1,
-				"inputs": {
-					"0": "CONST:2"
-				}
-			},
-			"GPIO3": {
-				"classID": 0,
-				"blockID": 2,
-				"inputs": {
-					"0": "CONST:3"
-				}
+		"0GPIO": {
+			"classID": 0,
+			"blockID": 0,
+			"inputs": {
+				"0": "CONST:1"
 			}
 		},
-		"NonIO": {
-			"0": {
-				"classID": 0,
-				"blockID": 3,
-				"inputs": {
-					"0": "IO:0.0"
-				}
-			},
-			"1": {
-				"classID": 1,
-				"blockID": 4,
-				"inputs": {
-					"0": "BLOKK:0.0",
-					"1": "BLOKK:2.0"
-				}
-			},
-			"2": {
-				"classID": 1,
-				"blockID": 5,
-				"inputs": {
-					"0": "IO:0.0",
-					"1": "IO:1.0"
-				}
-			},
-			"3": {
-				"classID": 5,
-				"blockID": 6,
-				"inputs": {
-					"0": "IO:2.0",
-					"1": "BLOKK:1.0",
-					"2": "CONST:0"
-				}
+		"1GPIO": {
+			"classID": 1,
+			"blockID": 1,
+			"inputs": {
+				"0": "CONST:2",
+				"1": "BLOCK:6:0"
+			}
+		},
+		"2GPIO": {
+			"classID": 2,
+			"blockID": 2,
+			"inputs": {
+				"0": "CONST:33",
+				"1": "BLOCK:6:0"
+			}
+		},
+		"3GPIO": {
+			"classID": 1,
+			"blockID": 20,
+			"inputs": {
+				"0": "CONST:33",
+				"1": "BLOCK:2:0"
+			}
+		},
+		"3LOGIC": {
+			"classID": 10,
+			"blockID": 3,
+			"inputs": {
+				"0": "CONST:0:0"
+			}
+		},
+		"4LOGIC": {
+			"classID": 11,
+			"blockID": 4,
+			"inputs": {
+				"0": "BLOCK:0:0",
+				"1": "BLOCK:2:0"
+			}
+		},
+		"5LOGIC": {
+			"classID": 11,
+			"blockID": 5,
+			"inputs": {
+				"0": "BLOCK:0:0",
+				"1": "BLOCK:2:0"
+			}
+		},
+		"6MATH": {
+			"classID": 15,
+			"blockID": 6,
+			"inputs": {
+				"0": "BLOCK:4:0",
+				"1": "CONST:0",
+				"2": "CONST:0"
 			}
 		}
 	},
