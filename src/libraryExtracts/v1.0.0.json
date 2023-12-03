@@ -1,0 +1,59 @@
+{
+	"include": "#include \"plcFramework.h\"",
+	"modules": {
+		"0": {
+			"constructor": "ModbusRTUSlave(%PARAMETERLIST%)"
+		}
+	},
+	"blocks": {
+		"IO": {
+			"0": {
+				"constructor": "HWIO_Input_Digital(%UNIQUE_ID%)"
+			},
+			"1": {
+				"constructor": "HWIO_Output_Digital(%UNIQUE_ID%)"
+			},
+			"2": {
+				"constructor": "HWIO_Input_Analog(%UNIQUE_ID%)"
+			},
+			"3": {
+				"constructor": "HWIO_Output_PWM(%UNIQUE_ID%)"
+			},
+			"4": {
+				"constructor": "VIRIO_ModbusSlave_In(%UNIQUE_ID%)"
+			},
+			"5": {
+				"constructor": "VIRIO_ModbusSlave_Out(%UNIQUE_ID%)"
+			}
+		},
+		"NonIO": {
+			"0": {
+				"constructor": "Logic_NOT(%UNIQUE_ID%)"
+			},
+			"1": {
+				"constructor": "Logic_AND(%UNIQUE_ID%)"
+			},
+			"2": {
+				"constructor": "Logic_OR(%UNIQUE_ID%)"
+			},
+			"3": {
+				"constructor": "Logic_Selector(%UNIQUE_ID%)"
+			},
+			"4": {
+				"constructor": "Logic_Counter(%UNIQUE_ID%)"
+			},
+			"5": {
+				"constructor": "Math_Basic(%UNIQUE_ID%)"
+			},
+			"6": {
+				"constructor": "Math_Map(%UNIQUE_ID%)"
+			},
+			"7": {
+				"constructor": "Math_Limiter(%UNIQUE_ID%)"
+			},
+			"8": {
+				"constructor": "Controller_PID(%UNIQUE_ID%)"
+			}
+		}
+	}
+}
