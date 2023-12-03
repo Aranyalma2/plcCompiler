@@ -30,14 +30,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // You can perform various actions with the extracted data
         
         // For example, printing the project name
-        echo "Project Name: $project_name\n";
+        echo "Project Name: $project_name<br>";
 
-        translateModel($library_id, $blocks, $modules);
+        echo $output = translateModel($library_id, $blocks, $modules);
+
+        file_put_contents("outputs/output.txt", $output);
+
+        /*
 
         $mockdata = json_decode(file_get_contents("libraryExtracts/" . $library_id. ".json"), true);
+        $mocktemplate = json_decode(file_get_contents("templates/blockFunctionTemplate.json"), true);
+        
+        foreach (createModuleConstructors($modules, $mockdata["modules"]) as $key => $value) {
+            echo"". $key ." ->  ". $value ."<br>";
+        }
 
-        createModuleConstructors($modules, $mockdata["modules"]);
-        createBlockConstructors($data['blocks'], $mockdata["blocks"]);
+        
+        foreach (createBlockConstructors($blocks, $mockdata["blocks"]) as $key => $value) {
+            echo"". $key ." ->  ". $value ."<br>";
+        }
+
+        foreach (createConnections($blocks, $mocktemplate) as $key => $value) {
+            echo"". $key ." ->  ". $value ."<br>";
+        }
+
+        foreach (schedulers($blocks, $modules, $mockdata["blocks"], $mocktemplate['run']) as $key => $value) {
+            echo"". $key ." ->  ". $value ."<br>";
+        }
+        */
 
         
 
