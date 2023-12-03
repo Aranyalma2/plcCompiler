@@ -6,54 +6,66 @@
 		}
 	},
 	"blocks": {
-		"IO": {
-			"0": {
-				"constructor": "HWIO_Input_Digital %NAME%(%UNIQUE_ID%);"
-			},
-			"1": {
-				"constructor": "HWIO_Output_Digital %NAME%(%UNIQUE_ID%);"
-			},
-			"2": {
-				"constructor": "HWIO_Input_Analog %NAME%(%UNIQUE_ID%);"
-			},
-			"3": {
-				"constructor": "HWIO_Output_PWM %NAME%(%UNIQUE_ID%);"
-			},
-			"4": {
-				"constructor": "VIRIO_ModbusSlave_In %NAME%(%UNIQUE_ID%);"
-			},
-			"5": {
-				"constructor": "VIRIO_ModbusSlave_Out %NAME%(%UNIQUE_ID%);"
-			}
+		"0": {
+			"constructor": "HWIO_Input_Digital %NAME%(%UNIQUE_ID%);",
+			"output": false
 		},
-		"NonIO": {
-			"0": {
-				"constructor": "Logic_NOT %NAME%(%UNIQUE_ID%);"
-			},
-			"1": {
-				"constructor": "Logic_AND %NAME%(%UNIQUE_ID%);"
-			},
-			"2": {
-				"constructor": "Logic_OR %NAME%(%UNIQUE_ID%);"
-			},
-			"3": {
-				"constructor": "Logic_Selector %NAME%(%UNIQUE_ID%);"
-			},
-			"4": {
-				"constructor": "Logic_Counter %NAME%(%UNIQUE_ID%);"
-			},
-			"5": {
-				"constructor": "Math_Basic %NAME%(%UNIQUE_ID%);"
-			},
-			"6": {
-				"constructor": "Math_Map %NAME%(%UNIQUE_ID%);"
-			},
-			"7": {
-				"constructor": "Math_Limiter %NAME%(%UNIQUE_ID%);"
-			},
-			"8": {
-				"constructor": "Controller_PID %NAME%(%UNIQUE_ID%);"
-			}
+		"1": {
+			"constructor": "HWIO_Output_Digital %NAME%(%UNIQUE_ID%);",
+			"output": true
+		},
+		"2": {
+			"constructor": "HWIO_Input_Analog %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"3": {
+			"constructor": "HWIO_Output_PWM %NAME%(%UNIQUE_ID%);",
+			"output": true
+		},
+		"4": {
+			"constructor": "VIRIO_ModbusSlave_In %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"5": {
+			"constructor": "VIRIO_ModbusSlave_Out %NAME%(%UNIQUE_ID%);",
+			"output": true
+		},
+
+		"10": {
+			"constructor": "Logic_NOT %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"11": {
+			"constructor": "Logic_AND %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"12": {
+			"constructor": "Logic_OR %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"13": {
+			"constructor": "Logic_Selector %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"14": {
+			"constructor": "Logic_Counter %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"15": {
+			"constructor": "Math_Basic %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"16": {
+			"constructor": "Math_Map %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"17": {
+			"constructor": "Math_Limiter %NAME%(%UNIQUE_ID%);",
+			"output": false
+		},
+		"18": {
+			"constructor": "Controller_PID %NAME%(%UNIQUE_ID%);",
+			"output": false
 		}
 	}
 }
