@@ -2,6 +2,9 @@
 
 include("CodeMakerCore.php");
 
+$translatedModelsPATH = "outputs/translated/";
+$compiledBinariesPATH = "outputs/compiled/";
+
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
@@ -15,57 +18,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($data !== null) {
         
         // Accessing project information
-        $project_name = $data['project']['name'];
-        $author = $data['project']['author'];
-        $board_id = $data['project']['boardID'];
+        $project_name = $data['project']['name'] ."-". md5(rand());;
+        $author = md5($data['project']['author']);
         $library_id = $data['project']['libraryID'];
         
-        // Accessing block information
+        // Accessing block and module information
         $blocks = $data['blocks'];
-        
-        // Accessing module information
         $modules = $data['modules'];
-        
-        // Process the data as needed
-        // You can perform various actions with the extracted data
-        
-        // For example, printing the project name
+
+        //Make user dir
+        if (!file_exists($translatedModelsPATH . $author)) {
+        // Create the directory
+            /*if (!mkdir($translatedModelsPATH . $author), 0777, true) {
+                echo 'ERROR: Failed to create user directory.';
+                return;
+            }*/
+            if (!mkdir($translatedModelsPATH . $author)) {
+                echo 'ERROR: Failed to create user directory.';
+                return;
+            }              
+        }   
+
+        //Printing the project name
         echo "Project Name: $project_name <br><br>";
         echo "Project compiled, download: <br><br>";
-
+        
+        //Download button
         echo "<button>Project zip</button>";
 
-        $output = translateModel($library_id, $blocks, $modules);
+        //$output = translateModel($library_id, $blocks, $modules);
         
-        echo $output;
+        //echo $output;
 
-        $str=rand();
-        $result = md5($str);
+        //$str=rand();
+        //$result = md5(rand());
 
-        file_put_contents("outputs/perf_test/output-".$result.".txt", $output);
+        //file_put_contents("outputs/perf_test/output-".$result.".txt", $output);
 
-        /*
-
-        $mockdata = json_decode(file_get_contents("libraryExtracts/" . $library_id. ".json"), true);
-        $mocktemplate = json_decode(file_get_contents("templates/blockFunctionTemplate.json"), true);
-        
-        foreach (createModuleConstructors($modules, $mockdata["modules"]) as $key => $value) {
-            echo"". $key ." ->  ". $value ."<br>";
-        }
-
-        
-        foreach (createBlockConstructors($blocks, $mockdata["blocks"]) as $key => $value) {
-            echo"". $key ." ->  ". $value ."<br>";
-        }
-
-        foreach (createConnections($blocks, $mocktemplate) as $key => $value) {
-            echo"". $key ." ->  ". $value ."<br>";
-        }
-
-        foreach (schedulers($blocks, $modules, $mockdata["blocks"], $mocktemplate['run']) as $key => $value) {
-            echo"". $key ." ->  ". $value ."<br>";
-        }
-        */
 
         
 
