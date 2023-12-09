@@ -2,52 +2,76 @@
 
 include("CodeMakerCore.php");
 
+$osIsWindows = false;
 $translatedModelsPATH = "outputs/translated/";
 $compiledBinariesPATH = "outputs/compiled/";
 
+//If the first three characters PHP_OS are equal to "WIN",
+//then PHP is running on a Windows operating system.
+if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+    $osIsWindows = true;
+}
+
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Get the JSON data from the request body
     $json_data = file_get_contents('php://input');
-    
+
     // Decode the JSON data
     $data = json_decode($json_data, true);
-    
+
     // Check if the JSON decoding was successful
     if ($data !== null) {
-        
+
         // Accessing project information
-        $project_name = $data['project']['name'] ."-". md5(rand());;
+        $project_name = $data['project']['name'] . "-" . md5(rand());;
         $author = md5($data['project']['author']);
         $library_id = $data['project']['libraryID'];
-        
+
         // Accessing block and module information
         $blocks = $data['blocks'];
         $modules = $data['modules'];
 
         //Make user dir
         if (!file_exists($translatedModelsPATH . $author)) {
-        // Create the directory
-            /*if (!mkdir($translatedModelsPATH . $author), 0777, true) {
+            // Create the directory
+            if (!$osIsWindows && !mkdir($translatedModelsPATH . $author, 0777, true)) {
                 echo 'ERROR: Failed to create user directory.';
                 return;
-            }*/
-            if (!mkdir($translatedModelsPATH . $author)) {
+            }
+            if ($osIsWindows && !mkdir($translatedModelsPATH . $author)) {
                 echo 'ERROR: Failed to create user directory.';
                 return;
-            }              
-        }   
+            }
+        }
+
+        //translate project and save it
+        $output = translateModel($library_id, $blocks, $modules);
+        $projectPath = $translatedModelsPATH . $author . '/' . $project_name;
+        if (mkdir($projectPath, 0777, true)) {
+            file_put_contents($projectPath . "/" . $project_name . ".ino", $output);
+        } else {
+            echo 'ERROR: Failed to create project directory.';
+            return;
+        }
+
+        //Compile project with arduino cli
+        //$buildPath = $compiledBinariesPATH . $author . '/' . $project_name;
+        echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $projectPath . " -e");
+
+
+
 
         //Printing the project name
         echo "Project Name: $project_name <br><br>";
         echo "Project compiled, download: <br><br>";
-        
+
         //Download button
         echo "<button>Project zip</button>";
 
         //$output = translateModel($library_id, $blocks, $modules);
-        
+
         //echo $output;
 
         //$str=rand();
@@ -56,9 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //file_put_contents("outputs/perf_test/output-".$result.".txt", $output);
 
 
-        
 
-        
+
+
     } else {
         // JSON decoding failed
         echo "Error decoding JSON data.\n";
@@ -67,4 +91,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Request method is not POST
     echo "Invalid request method. Use POST.\n";
 }
-?>
