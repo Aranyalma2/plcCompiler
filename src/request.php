@@ -48,19 +48,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //translate project and save it
         $output = translateModel($library_id, $blocks, $modules);
-        $projectPath = $translatedModelsPATH . $author . '/' . $project_name;
+        $project_translatedPath = $translatedModelsPATH . $author . '/' . $project_name;
         if (mkdir($projectPath, 0777, true)) {
-            file_put_contents($projectPath . "/" . $project_name . ".ino", $output);
+            file_put_contents($project_translatedPath . "/" . $project_name . ".ino", $output);
         } else {
-            echo 'ERROR: Failed to create project directory.';
+            echo 'ERROR: Failed to create a project directory. (ino)';
             return;
         }
 
-        //Compile project with arduino cli
+        //Compile project with arduino cli and save it
         $FQDN = "arduino:avr:nano:cpu=atmega328";
         echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $projectPath . " -e");
 
-
+        echo $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name;
+        if (mkdir($project_compiledPath, 0777, true)) {
+            $builtProjectPath = $project_translatedPath . "/build";
+            zipBinary($builtProjectPath, $project_compiledPath);
+        } else {
+            echo 'ERROR: Failed to create a project directory. (binary)';
+            return;
+        }
 
 
         //Printing the project name
@@ -68,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Project compiled, download: <br><br>";
 
         //Download button
-        echo "<button>Project zip</button>";
+        echo `<button onclick="location.href=' ` . $project_compiledPath . "" . `'">Project zip</button>`;
 
         //$output = translateModel($library_id, $blocks, $modules);
 
@@ -90,4 +97,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     // Request method is not POST
     echo "Invalid request method. Use POST.\n";
+}
+
+function zipBinary($buildPath, $exportpath)
+{
+
+    $rootPath = realpath($buildPath);
+
+    // Initialize archive object
+    $zip = new ZipArchive();
+    $zip->open($exportpath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+    // Create recursive directory iterator
+    /** @var SplFileInfo[] $files */
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($rootPath),
+        RecursiveIteratorIterator::LEAVES_ONLY
+    );
+
+    foreach ($files as $name => $file) {
+        // Skip directories (they would be added automatically)
+        if (!$file->isDir()) {
+            // Get real and relative path for current file
+            $filePath = $file->getRealPath();
+            $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+            // Add current file to archive
+            $zip->addFile($filePath, $relativePath);
+        }
+    }
+
+    // Zip archive will be created only after closing object
+    $zip->close();
 }
