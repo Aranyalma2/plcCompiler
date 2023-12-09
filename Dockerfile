@@ -52,8 +52,8 @@ RUN arduino-cli --config-file /var/www/html/arduino/config.yaml lib install --zi
 RUN cp -R plcCompiler-szakdolgozat/src/* /var/www/html/
 
 #Remove all unnecessary files and folders
-RUN rm -fr plcCompiler
-RUN rm -fr plcCompiler.zip
+RUN rm -fr plcCompiler-szakdolgozat
+RUN rm -fr plcCompiler-szakdolgozat.zip
 RUN rm -fr plcFramework-szakdolgozat.zip
 
 # Cleanup: Remove unnecessary files or tools (e.g., git) if desired
