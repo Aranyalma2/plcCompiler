@@ -29,8 +29,13 @@ function createBlockConstructors($blocksModel, $blocksLibrary)
     foreach ($blocksModel as $key => $blockProperties)
     {
         $blockConstructor = $blocksLibrary[$blockProperties["classID"]]["constructor"];
-
         $blockConstructor = str_replace("%NAME%", getblockName($blockProperties["blockID"]) , $blockConstructor);
+        
+        if($blocksLibrary[$blockProperties["classID"]]["hasModuleDependency"] == true){
+            
+            $blockConstructor = str_replace("%MODULE_REFERENCE%", getModuleName($blockProperties["attachedTo"]), $blockConstructor);
+        }
+
         $blockConstructors[getblockName($blockProperties["blockID"]) ] = str_replace("%UNIQUE_ID%", $blockProperties["blockID"], $blockConstructor);
     }
     return $blockConstructors;

@@ -18,64 +18,79 @@
 	"blocks": {
 		"0": {
 			"constructor": "HWIO_Input_Digital %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"1": {
 			"constructor": "HWIO_Output_Digital %NAME%(%UNIQUE_ID%);",
-			"output": true
+			"output": true,
+			"hasModuleDependency": false
 		},
 		"2": {
 			"constructor": "HWIO_Input_Analog %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"3": {
 			"constructor": "HWIO_Output_PWM %NAME%(%UNIQUE_ID%);",
-			"output": true
+			"output": true,
+			"hasModuleDependency": false
 		},
 		"4": {
-			"constructor": "VIRIO_ModbusSlave_In %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"constructor": "VIRIO_ModbusSlave_In %NAME%(%UNIQUE_ID%,&%MODULE_REFERENCE%);",
+			"output": false,
+			"hasModuleDependency": true
 		},
 		"5": {
-			"constructor": "VIRIO_ModbusSlave_Out %NAME%(%UNIQUE_ID%);",
-			"output": true
+			"constructor": "VIRIO_ModbusSlave_Out %NAME%(%UNIQUE_ID%,&%MODULE_REFERENCE%);",
+			"output": true,
+			"hasModuleDependency": true
 		},
 
 		"10": {
 			"constructor": "Logic_NOT %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"11": {
 			"constructor": "Logic_AND %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"12": {
 			"constructor": "Logic_OR %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"13": {
 			"constructor": "Logic_Selector %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"14": {
 			"constructor": "Logic_Counter %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"15": {
 			"constructor": "Math_Basic %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"16": {
 			"constructor": "Math_Map %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"17": {
 			"constructor": "Math_Limiter %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		},
 		"18": {
 			"constructor": "Controller_PID %NAME%(%UNIQUE_ID%);",
-			"output": false
+			"output": false,
+			"hasModuleDependency": false
 		}
 	}
 }
