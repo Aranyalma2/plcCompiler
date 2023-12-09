@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //translate project and save it
         $output = translateModel($library_id, $blocks, $modules);
         $project_translatedPath = $translatedModelsPATH . $author . '/' . $project_name;
-        if (mkdir($projectPath, 0777, true)) {
+        if (mkdir($project_translatedPath, 0777, true)) {
             file_put_contents($project_translatedPath . "/" . $project_name . ".ino", $output);
         } else {
             echo 'ERROR: Failed to create a project directory. (ino)';
