@@ -49,7 +49,7 @@ RUN arduino-cli --config-file /var/www/html/arduino/config.yaml lib install --zi
 
 
 # Copy the contents of the "src" folder to the web server root
-RUN cp -R plcCompiler/src/* /var/www/html/
+RUN cp -R plcCompiler-szakdolgozat/src/* /var/www/html/
 
 #Remove all unnecessary files and folders
 RUN rm -fr plcCompiler
