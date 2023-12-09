@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //Compile project with arduino cli and save it
         $FQDN = "arduino:avr:nano:cpu=atmega328";
-        echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $project_translatedPath . " -e");
+        shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $project_translatedPath . " -e");
 
-        echo $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name . ".zip";
+        $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name . ".zip";
         $builtProjectPath = $project_translatedPath . "/build";
         zipBinary($builtProjectPath, $project_compiledPath);
 
@@ -66,21 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Project compiled, download: <br><br>";
 
         //Download button
-        echo `<button onclick="location.href=' ` . $project_compiledPath . "" . `'">Project zip</button>`;
-
-        //$output = translateModel($library_id, $blocks, $modules);
-
-        //echo $output;
-
-        //$str=rand();
-        //$result = md5(rand());
-
-        //file_put_contents("outputs/perf_test/output-".$result.".txt", $output);
-
-
-
-
-
+        echo '<button onclick="window.location.href=\'' .  $project_compiledPath . '\';">Download project</button>';
     } else {
         // JSON decoding failed
         echo "Error decoding JSON data.\n";
