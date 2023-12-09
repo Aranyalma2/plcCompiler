@@ -1,10 +1,20 @@
 {
 	"include": "#include \"plcFramework.h\"",
+
+	"functiontemplates": {
+		"setInput": {
+			"block": "%CALLEDON%.setInput(%INDEX_IN%,%GETFROM%.getOutput(%INDEX_OUT%));",
+			"constans": "%CALLEDON%.setInput(%INDEX_IN%,%VALUE%);"
+		},
+		"run": "%CALLEDON%.run();"
+	},
+
 	"modules": {
 		"0": {
 			"constructor": "ModbusRTUSlave %NAME%(%PARAMETERLIST%);"
 		}
 	},
+
 	"blocks": {
 		"0": {
 			"constructor": "HWIO_Input_Digital %NAME%(%UNIQUE_ID%);",

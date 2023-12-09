@@ -36,6 +36,8 @@
         // Get the JSON data from the textarea
         var jsonData = document.getElementById("jsonEditor").value;
 
+
+
         // Send a POST request to request.php with the JSON data
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "request.php", true);
@@ -45,9 +47,11 @@
             if (xhr.readyState === 4 && xhr.status === 200) {
                 // Handle the response from request.php
                 var responseBox = document.getElementById("responseBox");
-                responseBox.innerHTML = '<br><h2>Response:</h2><br>' + xhr.responseText;
+                responseBox.innerHTML += '<br><h2>Response:</h2><br>' + xhr.responseText;
+
             }
         };
+
 
         xhr.send(jsonData);
     }

@@ -1,6 +1,6 @@
 <?php
 
-include("translator.php");
+include("CodeMakerCore.php");
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,11 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // You can perform various actions with the extracted data
         
         // For example, printing the project name
-        echo "Project Name: $project_name<br>";
+        echo "Project Name: $project_name <br><br>";
+        echo "Project compiled, download: <br><br>";
 
-        echo $output = translateModel($library_id, $blocks, $modules);
+        echo "<button>Project zip</button>";
 
-        file_put_contents("outputs/output.txt", $output);
+        $output = translateModel($library_id, $blocks, $modules);
+        
+        echo $output;
+
+        $str=rand();
+        $result = md5($str);
+
+        file_put_contents("outputs/perf_test/output-".$result.".txt", $output);
 
         /*
 

@@ -5,7 +5,6 @@
 		"boardID": "ArduinoNano",
 		"libraryID": "v1.0.0"
 	},
-
 	"blocks": {
 		"0GPIO": {
 			"classID": 0,
@@ -22,35 +21,19 @@
 				"1": "BLOCK:6:0"
 			}
 		},
-		"2GPIO": {
-			"classID": 2,
-			"blockID": 2,
-			"inputs": {
-				"0": "CONST:33",
-				"1": "BLOCK:6:0"
-			}
-		},
-		"3GPIO": {
-			"classID": 1,
-			"blockID": 20,
-			"inputs": {
-				"0": "CONST:33",
-				"1": "BLOCK:2:0"
-			}
-		},
 		"3LOGIC": {
 			"classID": 10,
 			"blockID": 3,
 			"inputs": {
-				"0": "CONST:0:0"
+				"0": "BLOCK:0:0"
 			}
 		},
 		"4LOGIC": {
 			"classID": 11,
 			"blockID": 4,
 			"inputs": {
-				"0": "BLOCK:0:0",
-				"1": "BLOCK:2:0"
+				"0": "BLOCK:5:0",
+				"1": "BLOCK:6:0"
 			}
 		},
 		"5LOGIC": {
@@ -58,7 +41,7 @@
 			"blockID": 5,
 			"inputs": {
 				"0": "BLOCK:0:0",
-				"1": "BLOCK:2:0"
+				"1": "CONST:0"
 			}
 		},
 		"6MATH": {
@@ -66,7 +49,7 @@
 			"blockID": 6,
 			"inputs": {
 				"0": "BLOCK:4:0",
-				"1": "CONST:0",
+				"1": "BLOCK:3:0",
 				"2": "CONST:0"
 			}
 		}

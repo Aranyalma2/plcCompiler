@@ -1,7 +1,0 @@
-{
-	"setInput": {
-		"block": "%CALLEDON%.setInput(%INDEX_IN%,%GETFROM%.getOutput(%INDEX_OUT%));",
-		"constans": "%CALLEDON%.setInput(%INDEX_IN%,%VALUE%);"
-	},
-	"run": "%CALLEDON%.run();"
-}
