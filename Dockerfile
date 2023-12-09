@@ -23,11 +23,6 @@ RUN curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/inst
 
 WORKDIR /var/www/html/
 
-# Download and copy Code translator
-
-RUN curl -LJO  https://github.com/Aranyalma2/plcCompiler/archive/refs/tags/szakdolgozat.zip && \
-    unzip plcCompiler-szakdolgozat.zip -d .
-
 # Initialize Arduino CLI amnd LIBS
 RUN mkdir arduino
 
@@ -43,18 +38,17 @@ RUN arduino-cli --config-file /var/www/html/arduino/config.yaml core update-inde
 
 RUN arduino-cli --config-file /var/www/html/arduino/config.yaml core install arduino:avr
 
-RUN curl -LJO https://github.com/Aranyalma2/plcFramework/archive/refs/tags/szakdolgozat.zip
+RUN arduino-cli --config-file /var/www/html/arduino/config.yaml lib install --git-url https://github.com/Aranyalma2/plcFramework.git
 
-RUN arduino-cli --config-file /var/www/html/arduino/config.yaml lib install --zip-path plcFramework-szakdolgozat.zip
+# Download and copy Code translator
 
+RUN git clone https://github.com/Aranyalma2/plcCompiler.git
 
 # Copy the contents of the "src" folder to the web server root
-RUN cp -R plcCompiler-szakdolgozat/src/* /var/www/html/
+RUN cp -R plcCompiler/src/* /var/www/html/
 
 #Remove all unnecessary files and folders
 RUN rm -fr plcCompiler
-RUN rm -fr plcCompiler.zip
-RUN rm -fr plcFramework-szakdolgozat.zip
 
 # Cleanup: Remove unnecessary files or tools (e.g., git) if desired
 RUN apt-get remove -y git && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
