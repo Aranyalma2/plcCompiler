@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         //Compile project with arduino cli
-        //$buildPath = $compiledBinariesPATH . $author . '/' . $project_name;
+        $FQDN = "arduino:avr:nano:cpu=atmega328";
         echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $projectPath . " -e");
 
 
