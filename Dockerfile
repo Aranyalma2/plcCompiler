@@ -50,6 +50,7 @@ RUN cp -R plcCompiler/src/* /var/www/html/
 #Remove all unnecessary files and folders
 RUN rm -fr plcCompiler
 
+
 # Cleanup: Remove unnecessary files or tools (e.g., git) if desired
 RUN apt-get remove -y git && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
