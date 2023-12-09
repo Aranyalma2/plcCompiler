@@ -1,19 +1,17 @@
 <?php function createModuleConstructors($modulesModel, $modulesLibrary)
 {
     $moduleConstructors = array();
-    foreach ($modulesModel as $key => $moduleProperties)
-    {
+    foreach ($modulesModel as $key => $moduleProperties) {
         $moduleConstructor = $modulesLibrary[$moduleProperties["classID"]]["constructor"];
 
         $valuesById = [];
-        foreach ($moduleProperties["parameterlist"] as $id => $value)
-        {
+        foreach ($moduleProperties["parameterlist"] as $id => $value) {
             $valuesById[$id] = $value;
         }
         $resultString = implode(",", $valuesById);
 
-        $moduleConstructor = str_replace("%NAME%", getModuleName($moduleProperties["moduleID"]) , $moduleConstructor);
-        $moduleConstructors[getModuleName($moduleProperties["moduleID"]) ] = str_replace("%PARAMETERLIST%", $resultString, $moduleConstructor);
+        $moduleConstructor = str_replace("%NAME%", getModuleName($moduleProperties["moduleID"]), $moduleConstructor);
+        $moduleConstructors[getModuleName($moduleProperties["moduleID"])] = str_replace("%PARAMETERLIST%", $resultString, $moduleConstructor);
     }
     return $moduleConstructors;
 }
@@ -26,17 +24,16 @@ function getModuleName($key)
 function createBlockConstructors($blocksModel, $blocksLibrary)
 {
     $blockConstructors = array();
-    foreach ($blocksModel as $key => $blockProperties)
-    {
+    foreach ($blocksModel as $key => $blockProperties) {
         $blockConstructor = $blocksLibrary[$blockProperties["classID"]]["constructor"];
-        $blockConstructor = str_replace("%NAME%", getblockName($blockProperties["blockID"]) , $blockConstructor);
-        
-        if($blocksLibrary[$blockProperties["classID"]]["hasModuleDependency"] == true){
-            
+        $blockConstructor = str_replace("%NAME%", getblockName($blockProperties["blockID"]), $blockConstructor);
+
+        if ($blocksLibrary[$blockProperties["classID"]]["hasModuleDependency"] == true) {
+
             $blockConstructor = str_replace("%MODULE_REFERENCE%", getModuleName($blockProperties["attachedTo"]), $blockConstructor);
         }
 
-        $blockConstructors[getblockName($blockProperties["blockID"]) ] = str_replace("%UNIQUE_ID%", $blockProperties["blockID"], $blockConstructor);
+        $blockConstructors[getblockName($blockProperties["blockID"])] = str_replace("%UNIQUE_ID%", $blockProperties["blockID"], $blockConstructor);
     }
     return $blockConstructors;
 }
@@ -53,15 +50,12 @@ function createConnections($blocksModel, $functionsTemplate)
     $setInputFromBlock_Template = $functionsTemplate["block"];
     $setInputFromConstans_Template = $functionsTemplate["constans"];
 
-    foreach ($blocksModel as $key => $blockProperties)
-    {
+    foreach ($blocksModel as $key => $blockProperties) {
         $blockName = getBlockName($blockProperties["blockID"]);
-        foreach ($blockProperties["inputs"] as $inputIndex => $type_value)
-        {
+        foreach ($blockProperties["inputs"] as $inputIndex => $type_value) {
             $type_block_output_splited = explode(":", $type_value);
 
-            switch ($type_block_output_splited[0])
-            {
+            switch ($type_block_output_splited[0]) {
                 case "BLOCK":
                     $referencedTO_Name = getblockName($type_block_output_splited[1]);
                     $referencedTO_Output = $type_block_output_splited[2];
@@ -73,7 +67,7 @@ function createConnections($blocksModel, $functionsTemplate)
 
                     array_push($connectionList, $connectionCode);
 
-                break;
+                    break;
                 case "CONST":
                     $VALUE = $type_block_output_splited[1];
 
@@ -83,53 +77,53 @@ function createConnections($blocksModel, $functionsTemplate)
 
                     array_push($connectionList, $connectionCode);
 
-                break;
+                    break;
             }
         }
     }
     return $connectionList;
 }
 
-function schedulers($blocksModel, $modulesModel, $blocksLibrary, $functionsTemplate){
-    
+function schedulers($blocksModel, $modulesModel, $blocksLibrary, $functionsTemplate)
+{
+
     $runQueue = array();
-     
-    $runQueue += createRunForModules($modulesModel, $functionsTemplate); 
+
+    $runQueue += createRunForModules($modulesModel, $functionsTemplate);
     $runQueue += createRunForBlocks($blocksModel, $blocksLibrary, $functionsTemplate);
 
     return $runQueue;
-    
-    
 }
 
-function createRunForModules($modulesModel, $runFunctionTemplate){
+function createRunForModules($modulesModel, $runFunctionTemplate)
+{
     $runModulesList = array();
-    
+
     foreach ($modulesModel as $key => $moduleProperties) {
-        
+
         $runCode = str_replace("%CALLEDON%", getModuleName($moduleProperties['moduleID']), $runFunctionTemplate);
-        
+
         $runModulesList[getModuleName($moduleProperties['moduleID'])] = $runCode;
     }
 
     return $runModulesList;
 }
 
-function createRunForBlocks($blocksModel, $blocksLibrary, $runFunctionTemplate){
-    
+function createRunForBlocks($blocksModel, $blocksLibrary, $runFunctionTemplate)
+{
+
     $runBlocksList = array();
 
     $blocksQueue = startDFS($blocksModel, $blocksLibrary);
-    
-    foreach($blocksQueue as $key => $blockName){
-        
+
+    foreach ($blocksQueue as $key => $blockName) {
+
         $runCode = str_replace("%CALLEDON%", $blockName, $runFunctionTemplate);
-        
+
         $runBlocksList[$blockName] = $runCode;
     }
 
     return $runBlocksList;
-    
 }
 
 
@@ -139,35 +133,36 @@ function createRunForBlocks($blocksModel, $blocksLibrary, $runFunctionTemplate){
 //queueNumber: calculated queue number (it can increase but not decrease)
 class ScheduleStruct
 {
-  public $queueNumber = -1;
-  public $itemName;
+    public $queueNumber = -1;
+    public $itemName;
 
-  function __construct($itemName, $queueNumber)
-  {
-    $this->itemName = $itemName;
-    $this->queueNumber = $queueNumber;
-  }
-
-  function setQueueNumber($queueNumber)
-  {
-    if ($queueNumber > $this->queueNumber) {
-      $this->queueNumber = $queueNumber;
-      return true;
+    function __construct($itemName, $queueNumber)
+    {
+        $this->itemName = $itemName;
+        $this->queueNumber = $queueNumber;
     }
-    return false;
-  }
+
+    function setQueueNumber($queueNumber)
+    {
+        if ($queueNumber > $this->queueNumber) {
+            $this->queueNumber = $queueNumber;
+            return true;
+        }
+        return false;
+    }
 }
 
-function startDFS($blocksModel, $blocksLibrary){
+function startDFS($blocksModel, $blocksLibrary)
+{
 
     $scannedNodes = array();
-    
+
     $firstLayer = getFirstLayerDFS($blocksModel, $blocksLibrary);
     $depth = 0;
 
     foreach ($firstLayer as $key => $blockProperties) {
         $dfsChain = array();
-        
+
         runDFS($blocksModel, $blockProperties, $scannedNodes, $depth, $dfsChain);
     }
 
@@ -176,72 +171,70 @@ function startDFS($blocksModel, $blocksLibrary){
     return (orderDFSOutput($scannedNodes));
 }
 
-function getFirstLayerDFS($blocksModel, $blocksLibrary){
+function getFirstLayerDFS($blocksModel, $blocksLibrary)
+{
     $isOutputFromSystem = array();
 
     foreach ($blocksModel as $key => $blockProperties) {
-        if($blocksLibrary[$blockProperties['classID']]['output'] == true){
+        if ($blocksLibrary[$blockProperties['classID']]['output'] == true) {
             array_push($isOutputFromSystem, $blockProperties);
         }
     }
     return $isOutputFromSystem;
 }
 
-function findBlockPropertyBy_blockID($blocksModel, $id){
+function findBlockPropertyBy_blockID($blocksModel, $id)
+{
     foreach ($blocksModel as $key => $blockProperties) {
-        if($blockProperties['blockID'] == $id){
+        if ($blockProperties['blockID'] == $id) {
             return $blockProperties;
         }
     }
 }
 
-function runDFS($blocksModel, $blockProperties, &$scannedNodes, $depth, $dfsChain){
+function runDFS($blocksModel, $blockProperties, &$scannedNodes, $depth, $dfsChain)
+{
 
-        if(in_array($blockProperties['blockID'], $dfsChain)){
-            echo "Loop detected";
-            return;
-        }
+    if (in_array($blockProperties['blockID'], $dfsChain)) {
+        //echo "Loop detected";
+        return;
+    }
 
-        array_push($dfsChain, $blockProperties['blockID']);
-    
-        $blockName = getBlockName($blockProperties['blockID']);
-        if(!array_key_exists($blockProperties['blockID'], $scannedNodes)){
-            $scannedNodes[$blockProperties['blockID']] = new ScheduleStruct($blockName, $depth);
-        }
+    array_push($dfsChain, $blockProperties['blockID']);
 
-        else if(!$scannedNodes[$blockProperties['blockID']]->setQueueNumber($depth)){
-            //echo $scannedNodes[$blockProperties['blockID']]->setQueueNumber($depth);
-            echo "Has higher value";
-            return;
-        }
-        
-            
-        foreach ($blockProperties['inputs'] as $inputIndex => $possibleConnection) {
-            
+    $blockName = getBlockName($blockProperties['blockID']);
+    if (!array_key_exists($blockProperties['blockID'], $scannedNodes)) {
+        $scannedNodes[$blockProperties['blockID']] = new ScheduleStruct($blockName, $depth);
+    } else if (!$scannedNodes[$blockProperties['blockID']]->setQueueNumber($depth)) {
+        //echo $scannedNodes[$blockProperties['blockID']]->setQueueNumber($depth);
+        //echo "Has higher value";
+        return;
+    }
+
+
+    foreach ($blockProperties['inputs'] as $inputIndex => $possibleConnection) {
+
+        //echo $blockProperties['blockID'] . " |-> " . $possibleConnection . "<br>";
+
+        $type_block_output_splited = explode(":", $possibleConnection);
+        if ($type_block_output_splited[0] == "BLOCK") {
+            $newBlockProperties = findBlockPropertyBy_blockID($blocksModel, $type_block_output_splited[1]);
             //echo $blockProperties['blockID'] . " |-> " . $possibleConnection . "<br>";
-            
-            $type_block_output_splited = explode(":", $possibleConnection);
-            if($type_block_output_splited[0] == "BLOCK"){
-                $newBlockProperties = findBlockPropertyBy_blockID($blocksModel, $type_block_output_splited[1]);
-                //echo $blockProperties['blockID'] . " |-> " . $possibleConnection . "<br>";
-                runDFS($blocksModel, $newBlockProperties, $scannedNodes, $depth+1, $dfsChain);
-            }
+            runDFS($blocksModel, $newBlockProperties, $scannedNodes, $depth + 1, $dfsChain);
         }
+    }
 }
 
-function orderDFSOutput($nodes){
+function orderDFSOutput($nodes)
+{
 
     $nodeGroups = array();
 
-    foreach($nodes as $id => $node){
-        $nodeGroups[$node->queueNumber][] = $node->itemName; 
+    foreach ($nodes as $id => $node) {
+        $nodeGroups[$node->queueNumber][] = $node->itemName;
     }
 
     //return $nodeGroups;
 
     return array_reverse(array_merge(...$nodeGroups));
-    
 }
-
-
-?>
