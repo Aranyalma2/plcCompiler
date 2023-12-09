@@ -26,10 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $blocks = $data['blocks'];
         $modules = $data['modules'];
 
-        //Make user dir
+        //Make user dirs
         if (!file_exists($translatedModelsPATH . $author)) {
             // Create the directory
             if (!mkdir($translatedModelsPATH . $author, 0777, true)) {
+                echo 'ERROR: Failed to create user directory.';
+                return;
+            }
+        }
+        if (!file_exists($compiledBinariesPATH . $author)) {
+            // Create the directory
+            if (!mkdir($compiledBinariesPATH . $author, 0777, true)) {
                 echo 'ERROR: Failed to create user directory.';
                 return;
             }
@@ -49,14 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $FQDN = "arduino:avr:nano:cpu=atmega328";
         echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $project_translatedPath . " -e");
 
-        echo $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name;
-        if (mkdir($project_compiledPath, 0777, true)) {
-            $builtProjectPath = $project_translatedPath . "/build";
-            zipBinary($builtProjectPath, $project_compiledPath);
-        } else {
-            echo 'ERROR: Failed to create a project directory. (binary)';
-            return;
-        }
+        echo $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name . ".zip";
+        $builtProjectPath = $project_translatedPath . "/build";
+        zipBinary($builtProjectPath, $project_compiledPath);
 
 
         //Printing the project name
