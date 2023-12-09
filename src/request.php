@@ -2,15 +2,8 @@
 
 include("CodeMakerCore.php");
 
-$osIsWindows = false;
 $translatedModelsPATH = "outputs/translated/";
 $compiledBinariesPATH = "outputs/compiled/";
-
-//If the first three characters PHP_OS are equal to "WIN",
-//then PHP is running on a Windows operating system.
-if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-    $osIsWindows = true;
-}
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,11 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Make user dir
         if (!file_exists($translatedModelsPATH . $author)) {
             // Create the directory
-            if (!$osIsWindows && !mkdir($translatedModelsPATH . $author, 0777, true)) {
-                echo 'ERROR: Failed to create user directory.';
-                return;
-            }
-            if ($osIsWindows && !mkdir($translatedModelsPATH . $author)) {
+            if (!mkdir($translatedModelsPATH . $author, 0777, true)) {
                 echo 'ERROR: Failed to create user directory.';
                 return;
             }
@@ -58,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         //Compile project with arduino cli and save it
         $FQDN = "arduino:avr:nano:cpu=atmega328";
-        echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $projectPath . " -e");
+        echo shell_exec("arduino-cli --config-file arduino/config.yaml compile --fqbn " . $FQDN . " " . $project_translatedPath . " -e");
 
         echo $project_compiledPath = $compiledBinariesPATH . $author . '/' . $project_name;
         if (mkdir($project_compiledPath, 0777, true)) {
